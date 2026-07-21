@@ -2,13 +2,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    
+    // Fields
+    [Header("Parameters")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity = 9.81f;
+
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundDistance = 0.1f;
+    [SerializeField] private LayerMask groundMask;
+
     private CharacterController controller;
     private Vector3 velocity;
 
+    // Methods
     void Start() => controller = GetComponent<CharacterController>();
 
     void Update()
@@ -21,11 +30,14 @@ public class PlayerController : MonoBehaviour
         controller.Move(movement.normalized * movementSpeed * Time.deltaTime);
 
         // Gravity
-        velocity += Vector3.down * gravity * Time.deltaTime;
+        bool isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if (isGrounded && velocity.y < 0) velocity.y = 0;
+
+        velocity += Vector3.down * gravity * 2 * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
         // Jumping
-        // if (Input.GetKeyDown(KeyCode.Space)) rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) velocity.y = jumpForce;
     }
 
 }
