@@ -1,16 +1,22 @@
 using UnityEngine;
+using System;
 
 public class WeaponController : MonoBehaviour
 {
 
+    // Fields
     [SerializeField] private WeaponSO weapon;
     [SerializeField] private Transform bulletSpawn;
+    [SerializeField] private CharacterController player;
+
+    public event Action? OnShoot;
     private float _lastShootTime;
 
+    // Methods
     void Update()
     {
         if (Input.GetMouseButton(0))
-            Shoot(Vector3.zero);
+            Shoot(player.velocity);
     }
 
     public bool Shoot(Vector3 shooterVelocity)
@@ -25,8 +31,10 @@ public class WeaponController : MonoBehaviour
 
         // Apply force
         var bulletRigidbody = bullet.GetComponent<Rigidbody>();
+        bulletRigidbody.linearVelocity = shooterVelocity;
         bulletRigidbody.AddForce(bulletSpawn.forward * weapon.bulletSpeed, ForceMode.Impulse);
 
+        OnShoot?.Invoke();
         return true;
     }
 
