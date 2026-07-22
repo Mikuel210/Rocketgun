@@ -277,8 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c794873d9bb916d1e8005568100f9eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
-  weapon: {fileID: 11400000, guid: ed299ba61efa11edb92b8c5bab845961, type: 2}
+  <Weapon>k__BackingField: {fileID: 11400000, guid: ed299ba61efa11edb92b8c5bab845961, type: 2}
   bulletSpawn: {fileID: 1968891256}
+  player: {fileID: 933898341}
 --- !u!23 &170037649
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1118,13 +1119,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   movementSpeed: 20
-  jumpForce: 10
-  gravity: 9.81
+  jumpForce: 20
+  groundFriction: 5
+  gravity: 15
   groundCheck: {fileID: 2114711300}
   groundDistance: 0.5
   groundMask:
     serializedVersion: 2
     m_Bits: 1
+  weaponController: {fileID: 170037647}
 --- !u!1 &1107100315
 GameObject:
   m_ObjectHideFlags: 0

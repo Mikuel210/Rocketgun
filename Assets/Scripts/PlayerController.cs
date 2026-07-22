@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float groundFriction;
     [SerializeField] private float gravity = 9.81f;
 
     [Header("Ground Check")]
@@ -14,11 +15,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDistance = 0.1f;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("References")]
+    [SerializeField] private WeaponController weaponController;
+
     private CharacterController _controller;
-    private float _velocity;
+    private Vector3 _velocity;
 
     // Methods
-    void Start() => _controller = GetComponent<CharacterController>();
+    void Start() 
+    {
+        _controller = GetComponent<CharacterController>();
+        weaponController.OnShoot += OnShoot;
+    }
 
     void Update()
     {
@@ -32,14 +40,25 @@ public class PlayerController : MonoBehaviour
         movement = movement.normalized * movementSpeed;
 
         // Gravity
-        _velocity -= gravity * 2 * Time.deltaTime;
-        if (isGrounded && _velocity < 0) _velocity = 0;
+        _velocity.y -= gravity * 2 * Time.deltaTime;
+        if (isGrounded && _velocity.y < 0) _velocity.y = 0;
 
         // Jumping
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) _velocity = jumpForce;
-        movement += Vector3.up * _velocity;
-        
-        _controller.Move(movement * Time.deltaTime);
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) _velocity.y = jumpForce;
+
+        // Friction
+        if (isGrounded) 
+        {
+            Vector3 friction = Vector3.Lerp(_velocity, Vector3.zero, groundFriction * Time.deltaTime);
+            _velocity = new(friction.x, _velocity.y, friction.z);
+        }
+
+        // Result
+        float x = Mathf.Abs(movement.x) > Mathf.Abs(_velocity.x) ? movement.x : _velocity.x;
+        float z = Mathf.Abs(movement.z) > Mathf.Abs(_velocity.z) ? movement.z : _velocity.z;
+        _controller.Move(new Vector3(x, _velocity.y, z) * Time.deltaTime);
     }
+
+    private void OnShoot() => _velocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;
 
 }
