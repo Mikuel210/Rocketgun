@@ -14,13 +14,13 @@ public class WeaponHolder : MonoBehaviour
     [SerializeField] private CameraController camera;
     [SerializeField] private CharacterController player;
 
-    Vector3 localRotation;
-    Vector3 localPosition;
-    Vector3 positionVelocity;
-    Vector3 rotationVelocity;
+    private Vector3 _localRotation;
+    private Vector3 _localPosition;
+    private Vector3 _positionVelocity;
+    private Vector3 _rotationVelocity;
 
     // Methods
-    void Start() => localPosition = transform.localPosition;
+    void Start() => _localPosition = transform.localPosition;
 
     void Update()
     {
@@ -30,15 +30,15 @@ public class WeaponHolder : MonoBehaviour
         targetPosition.y *= positionMultiplier.y;
         targetPosition.z *= positionMultiplier.z;
 
-        localPosition = Vector3.SmoothDamp(localPosition, targetPosition, ref positionVelocity, positionSmoothTime);
+        _localPosition = Vector3.SmoothDamp(_localPosition, targetPosition, ref _positionVelocity, positionSmoothTime * Time.deltaTime);
 
         // Update rotation
         Vector3 targetRotation = new(camera.DeltaY * rotationMultiplier, camera.DeltaX * -rotationMultiplier, 0);
-        localRotation = Vector3.SmoothDamp(localRotation, targetRotation, ref rotationVelocity, rotationSmoothTime);
+        _localRotation = Vector3.SmoothDamp(_localRotation, targetRotation, ref _rotationVelocity, rotationSmoothTime * Time.deltaTime);
         
         // Update transform
-        transform.localPosition = localPosition;
-        transform.localRotation = Quaternion.Euler(localRotation);
+        transform.localPosition = _localPosition;
+        transform.localRotation = Quaternion.Euler(_localRotation);
     }
 
 }
