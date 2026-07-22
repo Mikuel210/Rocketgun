@@ -14,30 +14,32 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDistance = 0.1f;
     [SerializeField] private LayerMask groundMask;
 
-    private CharacterController controller;
-    private Vector3 velocity;
+    private CharacterController _controller;
+    private float _velocity;
 
     // Methods
-    void Start() => controller = GetComponent<CharacterController>();
+    void Start() => _controller = GetComponent<CharacterController>();
 
     void Update()
     {
+        bool isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
         // Movement
         float xAxis = Input.GetAxisRaw("Horizontal");
         float zAxis = Input.GetAxisRaw("Vertical");
 
         Vector3 movement = transform.right * xAxis + transform.forward * zAxis;
-        controller.Move(movement.normalized * movementSpeed * Time.deltaTime);
+        movement = movement.normalized * movementSpeed;
 
         // Gravity
-        bool isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && velocity.y < 0) velocity.y = 0;
-
-        velocity += Vector3.down * gravity * 2 * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        _velocity -= gravity * 2 * Time.deltaTime;
+        if (isGrounded && _velocity < 0) _velocity = 0;
 
         // Jumping
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) velocity.y = jumpForce;
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) _velocity = jumpForce;
+        movement += Vector3.up * _velocity;
+        
+        _controller.Move(movement * Time.deltaTime);
     }
 
 }
