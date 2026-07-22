@@ -20,10 +20,7 @@ public class WeaponHolder : MonoBehaviour
     Vector3 rotationVelocity;
 
     // Methods
-    void Start()
-    {
-        localPosition = transform.localPosition;
-    }
+    void Start() => localPosition = transform.localPosition;
 
     void Update()
     {
