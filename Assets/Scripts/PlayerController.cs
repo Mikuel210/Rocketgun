@@ -7,11 +7,14 @@ public class PlayerController : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float movementTime;
+    [SerializeField] private float airSpeed;
     [SerializeField] private float jumpForce;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float groundFriction;
+    [SerializeField] private float airFriction;
+    [SerializeField, Range(0, 1)] private float recoilTime;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -22,8 +25,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private WeaponController weaponController;
 
     private CharacterController _controller;
-    private Vector3 _movement;
     private Vector3 _velocity;
+    private bool _applyMovement = true;
 
     // Methods
     void Start() 
@@ -39,9 +42,26 @@ public class PlayerController : MonoBehaviour
         // Movement
         float xAxis = Input.GetAxisRaw("Horizontal");
         float zAxis = Input.GetAxisRaw("Vertical");
+        Vector3 movement = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
-        Vector3 movementTarget = (transform.right * xAxis + transform.forward * zAxis).normalized * movementSpeed;
-        _movement = Vector3.Lerp(_movement, movementTarget, movementTime * Time.deltaTime);
+        if (isGrounded) 
+        {
+            if (xAxis != 0 || zAxis != 0) _applyMovement = true;
+            if (xAxis == 0 && zAxis == 0 && _velocity.magnitude < 0.1f) _applyMovement = false;
+
+            Vector3 targetVelocity = Vector3.Lerp(_velocity, movement * movementSpeed, movementTime * Time.deltaTime);
+
+            _velocity = new(
+                _applyMovement ? targetVelocity.x : _velocity.x, 
+                _velocity.y, 
+                _applyMovement ? targetVelocity.z : _velocity.z
+            );
+        } 
+        else 
+        {
+            _applyMovement = false;
+            _velocity += movement * airSpeed * Time.deltaTime;
+        }
 
         // Gravity
         _velocity.y -= gravity * Time.deltaTime;
@@ -51,24 +71,25 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space)) _velocity.y = jumpForce;
 
         // Friction
-        if (isGrounded) 
-        {
-            Vector3 friction = Vector3.Lerp(_velocity, Vector3.zero, groundFriction * Time.deltaTime);
-            _velocity = new(friction.x, _velocity.y, friction.z);
-        }
+        float frictionTime = isGrounded ? groundFriction : airFriction;
+        Vector3 friction = Vector3.Lerp(_velocity, Vector3.zero, frictionTime * Time.deltaTime);
+
+        _velocity = new(
+            _applyMovement ? _velocity.x : friction.x, 
+            isGrounded ? _velocity.y : friction.y, 
+            _applyMovement ? _velocity.z : friction.z
+        );
 
         // Result
-        var localMovement = transform.InverseTransformDirection(_movement);
-        var localVelocity = transform.InverseTransformDirection(_velocity);
-        float x = Mathf.Abs(localMovement.x) > Mathf.Abs(localVelocity.x) ? localMovement.x : localVelocity.x;
-        float z = Mathf.Abs(localMovement.z) > Mathf.Abs(localVelocity.z) ? localMovement.z : localVelocity.z;
-
-        Vector3 result = transform.TransformDirection(new Vector3(x, _velocity.y, z));
-        _controller.Move(result * Time.deltaTime);
+        _controller.Move(_velocity * Time.deltaTime);
 
         // TODO: Update velocity if hitting something
     }
 
-    private void OnShoot() => _velocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;
+    private void OnShoot() 
+    {
+        Vector3 targetVelocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;
+        _velocity = Vector3.Lerp(_velocity + targetVelocity, targetVelocity, recoilTime);
+    }
 
 }
