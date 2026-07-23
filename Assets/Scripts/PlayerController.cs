@@ -6,9 +6,12 @@ public class PlayerController : MonoBehaviour
     // Fields
     [Header("Parameters")]
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float movementTime;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float groundFriction;
+
+    [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
+    [SerializeField] private float groundFriction;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private WeaponController weaponController;
 
     private CharacterController _controller;
+    private Vector3 _movement;
     private Vector3 _velocity;
 
     // Methods
@@ -36,11 +40,11 @@ public class PlayerController : MonoBehaviour
         float xAxis = Input.GetAxisRaw("Horizontal");
         float zAxis = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = transform.right * xAxis + transform.forward * zAxis;
-        movement = movement.normalized * movementSpeed;
+        Vector3 movementTarget = (transform.right * xAxis + transform.forward * zAxis).normalized * movementSpeed;
+        _movement = Vector3.Lerp(_movement, movementTarget, movementTime * Time.deltaTime);
 
         // Gravity
-        _velocity.y -= gravity * 2 * Time.deltaTime;
+        _velocity.y -= gravity * Time.deltaTime;
         if (isGrounded && _velocity.y < 0) _velocity.y = 0;
 
         // Jumping
@@ -54,9 +58,15 @@ public class PlayerController : MonoBehaviour
         }
 
         // Result
-        float x = Mathf.Abs(movement.x) > Mathf.Abs(_velocity.x) ? movement.x : _velocity.x;
-        float z = Mathf.Abs(movement.z) > Mathf.Abs(_velocity.z) ? movement.z : _velocity.z;
-        _controller.Move(new Vector3(x, _velocity.y, z) * Time.deltaTime);
+        var localMovement = transform.InverseTransformDirection(_movement);
+        var localVelocity = transform.InverseTransformDirection(_velocity);
+        float x = Mathf.Abs(localMovement.x) > Mathf.Abs(localVelocity.x) ? localMovement.x : localVelocity.x;
+        float z = Mathf.Abs(localMovement.z) > Mathf.Abs(localVelocity.z) ? localMovement.z : localVelocity.z;
+
+        Vector3 result = transform.TransformDirection(new Vector3(x, _velocity.y, z));
+        _controller.Move(result * Time.deltaTime);
+
+        // TODO: Update velocity if hitting something
     }
 
     private void OnShoot() => _velocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;

@@ -1118,10 +1118,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d456d96b1011167d88d6af822dc394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  movementSpeed: 20
+  movementSpeed: 25
+  movementTime: 25
   jumpForce: 20
+  gravity: 30
   groundFriction: 5
-  gravity: 15
   groundCheck: {fileID: 2114711300}
   groundDistance: 0.5
   groundMask:
@@ -1280,7 +1281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHolder
   positionSmoothTime: 10
-  positionMultiplier: {x: -0.01, y: -0.03, z: -0.005}
+  positionMultiplier: {x: -0.01, y: 0, z: -0.0015}
   rotationSmoothTime: 10
   rotationMultiplier: 1
   camera: {fileID: 862975527}
