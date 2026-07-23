@@ -18,7 +18,7 @@ public class WeaponParent : MonoBehaviour
     {
         Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-        if (!Physics.Raycast(ray, out var hit, maxDistance, layerMask)) 
+        if (!Physics.Raycast(ray, out var hit, maxDistance, layerMask))
             _rotation = transform.parent.rotation;
         else
             _rotation = Quaternion.LookRotation(hit.point - transform.position, Vector3.forward);

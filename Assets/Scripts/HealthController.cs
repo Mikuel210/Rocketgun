@@ -6,8 +6,8 @@ public class HealthController : MonoBehaviour
 
     [field: SerializeField] public float MaxHealth { get; private set; }
     [field: SerializeField] public float Health { get; private set; }
-    [SerializeField] private bool bulletDamage = true;
     public event Action? OnDeath;
+    public bool BulletDamage { get; private set; } = true;
 
     public void Damage(float damage)
     {
@@ -16,13 +16,5 @@ public class HealthController : MonoBehaviour
     }
 
     public void Heal(float amount) => Health = Mathf.Clamp(Health + amount, 0, MaxHealth);
-
-    void OnTriggerEnter(Collider other)
-    {  
-        bool isBullet = other.gameObject.TryGetComponent<BulletController>(out var bulletController);
-        if (!bulletDamage || !isBullet) return;
-
-        Damage(bulletController.Damage);
-    }
 
 }

@@ -29,10 +29,9 @@ public class WeaponController : MonoBehaviour
         bullet.transform.position = bulletSpawn.position;
         bullet.transform.rotation = bulletSpawn.rotation;
 
-        // Apply force
-        var bulletRigidbody = bullet.GetComponent<Rigidbody>();
-        bulletRigidbody.linearVelocity = shooterVelocity;
-        bulletRigidbody.AddForce(bulletSpawn.forward * Weapon.bulletSpeed, ForceMode.Impulse);
+        // Initialize
+        BulletController bulletController = bullet.GetComponent<BulletController>();
+        bulletController.Initialize(shooterVelocity);
 
         OnShoot?.Invoke();
         return true;
