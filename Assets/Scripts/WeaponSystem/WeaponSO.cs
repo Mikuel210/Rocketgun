@@ -8,4 +8,5 @@ public class WeaponSO : ScriptableObject
     public float bulletSpeed;
     public float fireRate;
     public float recoil;
+    public float recoilTime;
 }

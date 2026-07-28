@@ -4,11 +4,14 @@ using System;
 public class HealthController : MonoBehaviour
 {
 
+    // Fields
     [field: SerializeField] public float MaxHealth { get; private set; }
     [field: SerializeField] public float Health { get; private set; }
-    public event Action? OnDeath;
-    public bool BulletDamage { get; private set; } = true;
 
+    public bool BulletDamage { get; private set; } = true;
+    public event Action? OnDeath;
+
+    // Methods
     public void Damage(float damage)
     {
         Health = Mathf.Clamp(Health - damage, 0, MaxHealth);

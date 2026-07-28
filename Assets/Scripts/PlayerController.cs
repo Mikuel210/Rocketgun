@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float groundFriction;
     [SerializeField] private float airFriction;
-    [SerializeField, Range(0, 1)] private float recoilTime;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -89,7 +88,7 @@ public class PlayerController : MonoBehaviour
     private void OnShoot() 
     {
         Vector3 targetVelocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;
-        _velocity = Vector3.Lerp(_velocity + targetVelocity, targetVelocity, recoilTime);
+        _velocity = Vector3.Lerp(_velocity + targetVelocity, targetVelocity, weaponController.Weapon.recoilTime);
     }
 
 }

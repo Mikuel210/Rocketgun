@@ -17,3 +17,4 @@ MonoBehaviour:
   bulletSpeed: 40
   fireRate: 1
   recoil: 30
+  recoilTime: 0.75
