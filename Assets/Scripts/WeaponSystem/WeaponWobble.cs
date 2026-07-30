@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponHolder : MonoBehaviour
+public class WeaponWobble : MonoBehaviour
 {
 
     // Fields

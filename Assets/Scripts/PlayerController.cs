@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     
     // Fields
@@ -20,9 +20,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDistance = 0.1f;
     [SerializeField] private LayerMask groundMask;
 
-    [Header("References")]
-    [SerializeField] private WeaponController weaponController;
-
     private CharacterController _controller;
     private Vector3 _velocity;
     private bool _applyMovement = true;
@@ -31,7 +28,10 @@ public class PlayerController : MonoBehaviour
     void Start() 
     {
         _controller = GetComponent<CharacterController>();
-        weaponController.OnShoot += OnShoot;
+
+        WeaponParent.Instance.OnEquipped += () => {
+          WeaponController.Instance.OnShoot += OnShoot;
+        };
     }
 
     void Update()
@@ -87,8 +87,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnShoot() 
     {
-        Vector3 targetVelocity = Camera.main.transform.forward * -weaponController.Weapon.recoil;
-        _velocity = Vector3.Lerp(_velocity + targetVelocity, targetVelocity, weaponController.Weapon.recoilTime);
+        Vector3 targetVelocity = WeaponController.Instance.transform.forward * -WeaponController.Instance.Weapon.recoil;
+        _velocity = Vector3.Lerp(_velocity + targetVelocity, targetVelocity, WeaponController.Instance.Weapon.recoilTime);
     }
 
 }

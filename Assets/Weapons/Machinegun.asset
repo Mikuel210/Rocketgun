@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d89b1347493cea66785bc496e59a7125, type: 3}
-  m_Name: Rocketgun
+  m_Name: Machinegun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
-  prefab: {fileID: 5128670751386524258, guid: b87cf1e172b8596b68e57d3b849d0d98, type: 3}
-  bullet: {fileID: 6752884256572324275, guid: 80340de8a210c7093b20a6eaec5e025d, type: 3}
+  prefab: {fileID: 6993444090411420552, guid: b16896c93e71dfdae9e449f6bb503101, type: 3}
+  bullet: {fileID: 6752884256572324275, guid: be7a6a80a5a5f46759534c84ae413cb6, type: 3}
   bulletSpeed: 40
-  fireRate: 1
-  recoil: 30
-  recoilTime: 0.75
+  fireRate: 0.1
+  recoil: 3.5
+  recoilTime: 0

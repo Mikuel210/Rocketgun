@@ -19,9 +19,9 @@ public class BulletController : MonoBehaviour
         transform.Translate(_shooterVelocity * Time.deltaTime, Space.World);
     }
 
-    void OnCollisionEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if (other.TryGetComponent<HealthController>(out var health) && health.BulletDamage)
+        if (other.gameObject.TryGetComponent<HealthController>(out var health) && health.BulletDamage)
             health.Damage(Damage);
 
         Destroy(gameObject);

@@ -1,6 +1,7 @@
 using UnityEngine;
+using System;
 
-public class WeaponParent : MonoBehaviour
+public class WeaponParent : Singleton<WeaponParent>
 {
 
     // Fields
@@ -8,8 +9,10 @@ public class WeaponParent : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float timeCount;
 
+    public event Action? OnEquipped;
     private Camera _camera;
     private Quaternion _rotation;
+    private Transform? _weapon;
 
     // Methods
     void Start() => _camera = Camera.main;
@@ -27,6 +30,19 @@ public class WeaponParent : MonoBehaviour
         _rotation = Quaternion.Euler(_rotation.eulerAngles.x, _rotation.eulerAngles.y, 0);
 
         transform.rotation = _rotation;
+    }
+
+    public void Equip(WeaponSO weapon)
+    {
+      if (_weapon != null)
+        Destroy(_weapon.gameObject);
+
+      _weapon = Instantiate(weapon.prefab).transform;
+      _weapon.parent = gameObject.transform;
+      _weapon.localPosition = Vector3.zero;
+      _weapon.localRotation = Quaternion.identity;
+
+      OnEquipped?.Invoke();
     }
 
 }
