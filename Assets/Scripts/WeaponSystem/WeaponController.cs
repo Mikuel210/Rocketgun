@@ -9,7 +9,6 @@ public class WeaponController : Singleton<WeaponController>
     [SerializeField] private Transform bulletSpawn;
 
     public event Action? OnShoot;
-    private float _lastShootTime;
     private CharacterController _player;
 
     // Methods
@@ -23,8 +22,8 @@ public class WeaponController : Singleton<WeaponController>
 
     public bool Shoot(Vector3 shooterVelocity)
     {
-        if (Time.timeSinceLevelLoad - _lastShootTime < Weapon.fireRate) return false;
-        _lastShootTime = Time.timeSinceLevelLoad;
+        if (Time.timeSinceLevelLoad - Weapon.lastShootTime < Weapon.fireRate) return false;
+        Weapon.lastShootTime = Time.timeSinceLevelLoad;
 
         // Spawn bullet
         GameObject bullet = Instantiate(Weapon.bullet);

@@ -7,6 +7,7 @@ public class WeaponSO : ScriptableObject
     public GameObject bullet;
     public float bulletSpeed;
     public float fireRate;
+    public float lastShootTime;
     public float recoil;
     public float recoilTime;
 }

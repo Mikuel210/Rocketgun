@@ -15,6 +15,7 @@ MonoBehaviour:
   prefab: {fileID: 5128670751386524258, guid: b87cf1e172b8596b68e57d3b849d0d98, type: 3}
   bullet: {fileID: 6752884256572324275, guid: 80340de8a210c7093b20a6eaec5e025d, type: 3}
   bulletSpeed: 40
-  fireRate: 1
+  fireRate: 1.5
+  lastShootTime: 0
   recoil: 30
   recoilTime: 0.75
