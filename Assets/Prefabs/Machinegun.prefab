@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 422504125385365005}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bullet Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,4 +137,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
   <Weapon>k__BackingField: {fileID: 11400000, guid: 57ba72e158f58438e8df149f15c47b31, type: 2}
   bulletSpawn: {fileID: 422504125385365005}
-  player: {fileID: 0}

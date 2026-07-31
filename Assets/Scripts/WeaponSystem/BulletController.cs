@@ -21,6 +21,8 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        Debug.Log(other.gameObject.name);
+
         if (other.gameObject.TryGetComponent<HealthController>(out var health) && health.BulletDamage)
             health.Damage(Damage);
 
