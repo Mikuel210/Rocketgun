@@ -7,6 +7,12 @@ public class InventorySystem : MonoBehaviour
   [SerializeField] private List<WeaponSO> weapons;
   [SerializeField] private WeaponParent weaponParent;
 
+  void Start()
+  {
+    foreach (var weapon in weapons)
+      weapon.lastShootTime = -weapon.fireRate;
+  }
+
   void Update()
   {
     for (int i = 0; i < 10; i++)
