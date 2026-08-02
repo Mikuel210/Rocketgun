@@ -10,22 +10,25 @@ public class WeaponWobble : MonoBehaviour
     [Space, SerializeField] private float rotationSmoothTime;
     [SerializeField] private float rotationMultiplier;
 
-    [Header("References")]
-    [SerializeField] private CameraController camera;
-    [SerializeField] private CharacterController player;
-
+    private PlayerInputProvider _inputProvider;
+    private CharacterController _characterController;
     private Vector3 _localRotation;
     private Vector3 _localPosition;
     private Vector3 _positionVelocity;
     private Vector3 _rotationVelocity;
 
     // Methods
-    void Start() => _localPosition = transform.localPosition;
+    void Start()
+    {
+        _inputProvider = PlayerInputProvider.Instance;
+        _characterController = _inputProvider.GetComponent<CharacterController>();
+        _localPosition = transform.localPosition;
+    }
 
     void Update()
     {
         // Update position
-        Vector3 targetPosition = transform.InverseTransformPoint(player.velocity + player.transform.position);
+        Vector3 targetPosition = transform.InverseTransformPoint(_characterController.velocity + _characterController.transform.position);
         targetPosition.x *= positionMultiplier.x;
         targetPosition.y *= positionMultiplier.y;
         targetPosition.z *= positionMultiplier.z;
@@ -33,9 +36,9 @@ public class WeaponWobble : MonoBehaviour
         _localPosition = Vector3.SmoothDamp(_localPosition, targetPosition, ref _positionVelocity, positionSmoothTime * Time.deltaTime);
 
         // Update rotation
-        Vector3 targetRotation = new(camera.DeltaY * rotationMultiplier, camera.DeltaX * -rotationMultiplier, 0);
+        Vector3 targetRotation = new(_inputProvider.DeltaY * rotationMultiplier, _inputProvider.DeltaX * -rotationMultiplier, 0);
         _localRotation = Vector3.SmoothDamp(_localRotation, targetRotation, ref _rotationVelocity, rotationSmoothTime * Time.deltaTime);
-        
+
         // Update transform
         transform.localPosition = _localPosition;
         transform.localRotation = Quaternion.Euler(_localRotation);

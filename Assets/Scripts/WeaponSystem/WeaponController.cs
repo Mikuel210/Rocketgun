@@ -12,8 +12,8 @@ public class WeaponController : Singleton<WeaponController>
     private CharacterController _player;
 
     // Methods
-    void Start() => _player = PlayerController.Instance.GetComponent<CharacterController>();
-    
+    void Start() => _player = PlayerInputProvider.Instance.GetComponent<CharacterController>();
+
     void Update()
     {
         if (Input.GetMouseButton(0))
