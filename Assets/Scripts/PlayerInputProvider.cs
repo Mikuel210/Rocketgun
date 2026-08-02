@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerInputProvider : Singleton<PlayerInputProvider>, IInputProvider
+public class PlayerInputProvider : InputProvider
 {
 
     // Fields
@@ -11,17 +11,20 @@ public class PlayerInputProvider : Singleton<PlayerInputProvider>, IInputProvide
     private float _xRotation = 0;
     private float _yRotation = 0;
 
+    public static PlayerInputProvider Instance { get; private set; }
+    public PlayerInputProvider() => Instance = this;
+
     // Methods
     void Start() => Cursor.lockState = CursorLockMode.Locked;
 
-    public Vector2 GetMovement()
+    public override Vector2 GetMovement()
     {
         float xAxis = Input.GetAxisRaw("Horizontal");
         float zAxis = Input.GetAxisRaw("Vertical");
         return new(xAxis, zAxis);
     }
 
-    public Vector2 GetRotation()
+    public override Vector2 GetRotation()
     {
         DeltaX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         DeltaY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
@@ -32,6 +35,6 @@ public class PlayerInputProvider : Singleton<PlayerInputProvider>, IInputProvide
         return new(_xRotation, _yRotation);
     }
 
-    public bool GetJumping() => Input.GetKeyDown(KeyCode.Space);
+    public override bool GetJumping() => Input.GetKeyDown(KeyCode.Space);
 
 }

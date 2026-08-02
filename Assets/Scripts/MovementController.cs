@@ -20,7 +20,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     [Header("References")]
-    [SerializeField] private IInputProvider inputProvider;
+    [SerializeField] private InputProvider inputProvider;
     [SerializeField] private Transform camera;
 
     private CharacterController _controller;

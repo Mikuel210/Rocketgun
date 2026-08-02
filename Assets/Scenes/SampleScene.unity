@@ -2263,7 +2263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7812ad93bd9ccd235a9f46faebe20352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  sensitivity: 300
   player: {fileID: 933898342}
 --- !u!1 &933898340
 GameObject:
@@ -2276,6 +2275,7 @@ GameObject:
   - component: {fileID: 933898342}
   - component: {fileID: 933898341}
   - component: {fileID: 933898343}
+  - component: {fileID: 933898345}
   - component: {fileID: 933898344}
   m_Layer: 2
   m_Name: Player
@@ -2351,6 +2351,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1
+  camera: {fileID: 255084160}
 --- !u!114 &933898344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,6 +2368,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed299ba61efa11edb92b8c5bab845961, type: 2}
   - {fileID: 11400000, guid: 57ba72e158f58438e8df149f15c47b31, type: 2}
   weaponParent: {fileID: 829072316}
+--- !u!114 &933898345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933898340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9870bde3c79b4d77a85b0ba96d171922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputProvider
+  sensitivity: 300
 --- !u!1 &976435632
 GameObject:
   m_ObjectHideFlags: 0
@@ -3200,7 +3214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7812ad93bd9ccd235a9f46faebe20352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  sensitivity: 300
   player: {fileID: 789962165}
 --- !u!1 &1738499572
 GameObject:
@@ -3700,8 +3713,6 @@ MonoBehaviour:
   positionMultiplier: {x: -0.005, y: 0, z: -0.0015}
   rotationSmoothTime: 10
   rotationMultiplier: 1
-  camera: {fileID: 862975527}
-  player: {fileID: 933898341}
 --- !u!1 &2045925241
 GameObject:
   m_ObjectHideFlags: 0
