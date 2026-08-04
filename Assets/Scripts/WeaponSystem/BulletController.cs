@@ -13,7 +13,7 @@ public class BulletController : MonoBehaviour
     // Methods
     void Start() => Destroy(gameObject, lifetime);
 
-    void Update() 
+    void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
         transform.Translate(_shooterVelocity * Time.deltaTime, Space.World);
@@ -22,8 +22,9 @@ public class BulletController : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         Debug.Log(other.gameObject.name);
+        var health = other.gameObject.GetComponentInParent<HealthController>();
 
-        if (other.gameObject.TryGetComponent<HealthController>(out var health) && health.BulletDamage)
+        if (health != null && health.BulletDamage)
             health.Damage(Damage);
 
         Destroy(gameObject);

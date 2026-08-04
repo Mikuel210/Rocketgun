@@ -567,37 +567,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182237623}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &255084159
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 255084160}
-  m_Layer: 2
-  m_Name: Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &255084160
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255084159}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1540674287}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318530522
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 318530523}
   - component: {fileID: 318530524}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: Weapon Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +628,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1160,7 +1129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438340365}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: Ground Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1194,7 +1163,7 @@ GameObject:
   - component: {fileID: 458827202}
   - component: {fileID: 458827201}
   - component: {fileID: 458827200}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1900,7 +1869,8 @@ GameObject:
   - component: {fileID: 789962164}
   - component: {fileID: 789962166}
   - component: {fileID: 789962167}
-  m_Layer: 2
+  - component: {fileID: 789962168}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1989,6 +1959,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aeced816c8ef4fe09114ec216e21185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInputProvider
+--- !u!114 &789962168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789962163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec0e12906ff66657aa35b6570a3684d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthController
+  <MaxHealth>k__BackingField: 100
+  <Health>k__BackingField: 100
 --- !u!1 &829072314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,7 +1983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 829072315}
   - component: {fileID: 829072316}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Weapon Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2099,7 +2083,7 @@ GameObject:
   - component: {fileID: 862311022}
   - component: {fileID: 862311021}
   - component: {fileID: 862311020}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2210,8 +2194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 862975526}
-  - component: {fileID: 862975527}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2235,19 +2218,6 @@ Transform:
   - {fileID: 2014943688}
   m_Father: {fileID: 933898342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &862975527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 862975525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7812ad93bd9ccd235a9f46faebe20352, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  player: {fileID: 933898342}
 --- !u!1 &933898340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,7 +2232,7 @@ GameObject:
   - component: {fileID: 933898345}
   - component: {fileID: 933898344}
   - component: {fileID: 933898346}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3179,7 +3149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540674287}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3199,7 +3169,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 255084160}
   - {fileID: 318530523}
   m_Father: {fileID: 789962165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3662,7 +3631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2014943688}
   - component: {fileID: 2014943689}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Weapon Wobble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4158,7 +4127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2114711300}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Ground Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
