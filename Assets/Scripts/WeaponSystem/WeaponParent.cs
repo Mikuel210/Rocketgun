@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class WeaponParent : Singleton<WeaponParent>
+public class WeaponParent : MonoBehaviour
 {
 
     // Fields
@@ -9,10 +9,10 @@ public class WeaponParent : Singleton<WeaponParent>
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float timeCount;
 
+    public WeaponController? WeaponController { get; private set; }
     public event Action? OnEquipped;
     private Camera _camera;
     private Quaternion _rotation;
-    private Transform? _weapon;
 
     // Methods
     void Start() => _camera = Camera.main;
@@ -34,15 +34,15 @@ public class WeaponParent : Singleton<WeaponParent>
 
     public void Equip(WeaponSO weapon)
     {
-      if (_weapon != null)
-        Destroy(_weapon.gameObject);
+        if (WeaponController != null)
+            Destroy(WeaponController.gameObject);
 
-      _weapon = Instantiate(weapon.prefab).transform;
-      _weapon.parent = gameObject.transform;
-      _weapon.localPosition = Vector3.zero;
-      _weapon.localRotation = Quaternion.identity;
+        WeaponController = Instantiate(weapon.prefab).GetComponent<WeaponController>();
+        WeaponController.transform.parent = gameObject.transform;
+        WeaponController.transform.localPosition = Vector3.zero;
+        WeaponController.transform.localRotation = Quaternion.identity;
 
-      OnEquipped?.Invoke();
+        OnEquipped?.Invoke();
     }
 
 }

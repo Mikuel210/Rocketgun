@@ -21,7 +21,8 @@ public class MovementController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private InputProvider inputProvider;
-    [SerializeField] private Transform camera;
+    [SerializeField] private Transform head;
+    [SerializeField] private WeaponParent weaponParent;
 
     private CharacterController _controller;
     private Vector3 _velocity;
@@ -31,7 +32,7 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
-        WeaponParent.Instance.OnEquipped += () => WeaponController.Instance.OnShoot += OnShoot;
+        weaponParent.OnEquipped += () => weaponParent.WeaponController.OnShoot += OnShoot;
     }
 
     void Update()
@@ -40,7 +41,7 @@ public class MovementController : MonoBehaviour
 
         // Rotation
         Vector2 rotation = inputProvider.GetRotation();
-        camera.localRotation = Quaternion.Euler(rotation.x, 0, 0);
+        head.localRotation = Quaternion.Euler(rotation.x, 0, 0);
         transform.localRotation = Quaternion.Euler(0, rotation.y, 0);
 
         // Movement
